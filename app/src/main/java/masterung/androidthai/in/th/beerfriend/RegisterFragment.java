@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
@@ -35,7 +36,7 @@ public class RegisterFragment extends Fragment{
     private ImageView imageView;
     private Uri uri;
     private boolean aBoolean = true;
-    private String nameString, userString, passwordString;
+    private String nameString, userString, passwordString, pathAvataString;
     private ProgressDialog progressDialog;
 
 
@@ -202,6 +203,30 @@ public class RegisterFragment extends Fragment{
             ftpClient.setType(FTPClient.TYPE_BINARY);
             ftpClient.changeDirectory("MasterAvata");
             ftpClient.upload(file, new MyFTPDataTransferListener());
+
+//            Find Name of Photo
+            pathAvataString = pathString.substring(pathString.lastIndexOf("/"));
+            pathAvataString = "http://androidthai.in.th/bee/MasterAvata" + pathAvataString;
+
+            String tag = "21AugV2";
+            Log.d(tag, "name ==> " + nameString);
+            Log.d(tag, "user ==> " + userString);
+            Log.d(tag, "pass ==> " + passwordString);
+            Log.d(tag, "pathPhoto ==> " + pathAvataString);
+
+            ArrayList<String> stringArrayList = new ArrayList<>();
+            stringArrayList.add("Start");
+
+            AddNewUser addNewUser = new AddNewUser(getActivity());
+            addNewUser.execute(nameString, userString, passwordString,
+                    pathAvataString, stringArrayList.toString(), myConstant.getUrlAddUserString());
+
+            if (Boolean.parseBoolean(addNewUser.get())) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            } else {
+                Toast.makeText(getActivity(), "Cannot Upload", Toast.LENGTH_SHORT).show();
+            }
+
 
 
         } catch (Exception e) {
