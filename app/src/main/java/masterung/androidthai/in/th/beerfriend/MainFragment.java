@@ -1,5 +1,6 @@
 package masterung.androidthai.in.th.beerfriend;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -92,6 +93,12 @@ public class MainFragment extends Fragment{
             } else if (passwordString.equals(loginStrings[3])) {
                 Toast.makeText(getActivity(), "Welcome " + loginStrings[1],
                         Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity(), ServiceActivity.class);
+                intent.putExtra("Login", loginStrings);
+                startActivity(intent);
+                getActivity().finish();
+
             } else {
                 myAlert.normalDialog("Password False",
                         "Please Try Again Password False");
