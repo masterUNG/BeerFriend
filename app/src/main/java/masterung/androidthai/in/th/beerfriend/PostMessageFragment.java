@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PostMessageFragment extends Fragment{
 
     private String urlAvataString, idString;
@@ -27,12 +31,29 @@ public class PostMessageFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        getValueFromArgument();
+
+//        Show Avata
+        showAvata();
+
+
+    }   // Main Method
+
+    private void showAvata() {
+        CircleImageView circleImageView = getView().findViewById(R.id.circleAvata);
+        Picasso.get()
+                .load(urlAvataString)
+                .resize(100, 100)
+                .into(circleImageView);
+
+    }
+
+    private void getValueFromArgument() {
         urlAvataString = getArguments().getString("Avata");
         idString = getArguments().getString("id");
         Log.d(tag, "Url ==> " + urlAvataString);
         Log.d(tag, "id of Login ==> " + idString);
-
-    }   // Main Method
+    }
 
     @Nullable
     @Override
