@@ -8,21 +8,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostMessageFragment extends Fragment{
 
-    private String urlAvataString, idString;
+    private String urlAvataString, idString, currentPostMessageString;
     private String tag = "21AugV4";
 
-    public static PostMessageFragment postMessageInstance(String urlAvataString, String idString) {
+    public static PostMessageFragment postMessageInstance(
+            String urlAvataString,
+            String idString,
+            String currentPostMessageString) {
         PostMessageFragment postMessageFragment = new PostMessageFragment();
         Bundle bundle = new Bundle();
         bundle.putString("Avata", urlAvataString);
         bundle.putString("id", idString);
+        bundle.putString("PostMessage", currentPostMessageString);
         postMessageFragment.setArguments(bundle);
         return postMessageFragment;
     }
@@ -36,8 +44,65 @@ public class PostMessageFragment extends Fragment{
 //        Show Avata
         showAvata();
 
+//        Post Controller
+        postController();
 
     }   // Main Method
+
+    private void postController() {
+        Button button = getView().findViewById(R.id.btnPost);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                EditText editText = getView().findViewById(R.id.edtPost);
+
+                String postString = editText.getText().toString().trim();
+
+                if (postString.isEmpty()) {
+                    MyAlert myAlert = new MyAlert(getActivity());
+                    myAlert.normalDialog("Have Space",
+                            "Please Type Post Message");
+                } else {
+                    editPostMessage(postString);
+                    editText.setText("");
+                }
+
+
+            }
+        });
+    }
+
+    private void editPostMessage(String postString) {
+
+        try {
+
+            ArrayList<String> stringArrayList = new ArrayList<>();
+            MyConstant myConstant = new MyConstant();
+
+            currentPostMessageString = currentPostMessageString.substring(1, currentPostMessageString.length() - 1);
+            String[] strings = currentPostMessageString.split(",");
+            for (int i=0; i<strings.length; i+=1) {
+                stringArrayList.add(strings[i].trim());
+            }
+            stringArrayList.add(postString.trim());
+
+            currentPostMessageString = stringArrayList.toString();
+            Log.d("22AugV1", "newPostMessage ==> " + currentPostMessageString);
+
+            EditPostMessage editPostMessage = new EditPostMessage(getActivity());
+            editPostMessage.execute(idString, currentPostMessageString,
+                    myConstant.getUrlEditPostMessageString());
+
+            String resultString = editPostMessage.get();
+            Log.d("22AugV1", "Result ==> " + resultString);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }   // editPost
 
     private void showAvata() {
         CircleImageView circleImageView = getView().findViewById(R.id.circleAvata);
@@ -51,8 +116,10 @@ public class PostMessageFragment extends Fragment{
     private void getValueFromArgument() {
         urlAvataString = getArguments().getString("Avata");
         idString = getArguments().getString("id");
+        currentPostMessageString = getArguments().getString("PostMessage");
         Log.d(tag, "Url ==> " + urlAvataString);
         Log.d(tag, "id of Login ==> " + idString);
+        Log.d(tag, "currentPostMessage ==> " + currentPostMessageString);
     }
 
     @Nullable
