@@ -21,6 +21,7 @@ public class ServiceActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
+//            Add Post Fragment
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.contentFragmentServiceButton, PostMessageFragment.postMessageInstance(
@@ -28,6 +29,13 @@ public class ServiceActivity extends AppCompatActivity {
                             loginStrings[0],
                             loginStrings[5]))
                     .commit();
+
+//            Add ListFriend Fragment
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.contentFragmentServiceTop, new ListFriendFragment())
+                    .commit();
+
 
         }
 
