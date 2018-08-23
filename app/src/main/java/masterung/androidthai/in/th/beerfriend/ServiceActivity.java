@@ -1,5 +1,6 @@
 package masterung.androidthai.in.th.beerfriend;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -36,8 +37,21 @@ public class ServiceActivity extends AppCompatActivity {
 //        Exit Controller
         exitController();
 
+//        ShowMap Controller
+        showMapController();
+
 
     }   // Main Method
+
+    private void showMapController() {
+        TextView textView = findViewById(R.id.txtShowMap);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ServiceActivity.this, MapsActivity.class));
+            }
+        });
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

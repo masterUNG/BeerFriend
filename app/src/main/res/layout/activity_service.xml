@@ -51,6 +51,7 @@
         android:layout_width="320dp"
         android:layout_height="match_parent">
 
+        <!--Title-->
         <TextView
             android:textColor="@color/colorPrimaryDark"
             android:id="@+id/txtTitle"
@@ -60,6 +61,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <!--Show Map-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--Icon-->
+            <ImageView
+                android:src="@drawable/ic_action_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--Title-->
+            <TextView
+                android:id="@+id/txtShowMap"
+                android:clickable="true"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/h2"
+                android:text="Show Map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!--Exit-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
